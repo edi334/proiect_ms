@@ -80,7 +80,7 @@ void FunPoiss (double lambda)
         u *= urand ();
     }
 
-    printf ("Numărul de evenimente rare ce au avut loc în unitatea de timp: %d\n", n);
+    printf ("Numarul de evenimente rare ce au avut loc in unitatea de timp: %d\n", n);
 }
 
 void FunUnifDiscr (int m, int n)
@@ -109,7 +109,7 @@ void FunNeunifDiscr (double *x, double *p)
         F = F + p[k];
     }
 
-    printf("Valoare %lf a fost simulata\n", x[k]);
+    printf("Valoare %g a fost simulata\n", x[k]);
 }
 
 
@@ -117,9 +117,9 @@ int main ()
 {
     srand(time(NULL));
     int optiune, nr, a, b, aux, val;
-    double p, n, x[100], prob[100];
+    double p, n, x[100], prob[100], lambda;
 
-    printf("Simularea variabilelor aleatoare.\n");
+    printf("\nSimularea variabilelor aleatoare.\n\n");
 
     do
     {
@@ -129,49 +129,85 @@ int main ()
         printf("4 - Simularea distributiei Poisson\n");
         printf("5 - Simularea distributiei uniforme discrete\n");
         printf("6 - Simularea distributiei neuniforme discrete\n");
-        printf("7 - Exit\n");
+        printf("7 - Iesire\n");
 
-        printf ("Introduceti optiunea: \n"); scanf ("%d", &optiune);
-        if (optiune != 5)
+        printf("\n");
+
+        printf ("Introduceti optiunea: "); scanf ("%d", &optiune);
+        if (optiune != 7)
         {
-            printf("De cate ori sa fie simulata?\n");
+            printf("De cate ori sa fie simulata? ");
             scanf("%d", &nr);
         }
+        printf("\n");
         
         switch (optiune)
         {
             case 1:
                 printf("Probabilitatea succesului: "); scanf("%lf", &p);
+                printf("\n");
 
                 for (int i = 0; i < nr; ++i)
                     FunBern(p);
                 
+                printf("\n");
+                
                 printf("Media este: %g\n", p);
                 printf("Dispersia este: %g\n", p * (1 - p));
+
+                printf("\n");
                 break;
 
             case 2:
                 printf ("Numarul de incercari: "); scanf ("%lf", &n);
                 printf ("Probabilitatea succesului: "); scanf ("%lf", &p);
 
+                printf("\n");
+
                 for (int i = 0; i < nr; ++i)
                     FunBin (n, p);
 
+                printf("\n");
+
                 printf("Media este: %g\n", n * p);
                 printf("Dispersia este: %g\n", n * p * (1 - p));
+
+                printf("\n");
                 break;
 
             case 3:
                 printf ("Probabilitatea succesului: "); scanf ("%lf", &p);
 
+                printf("\n");
+
                 for (int i = 0; i < nr; ++i)
-                    FunGeom1 (p);            // am lasat geom1 deocamdata
+                    FunGeom1 (p);
+
+                printf("\n");
 
                 printf("Media este: %g\n", 1 / p);
                 printf("Dispersia este: %g\n", (1 - p) / (p * p));
+
+                printf("\n");
                 break;
 
             case 4:
+                printf ("Rata de aparitie a eventului rar in unitatea de timp (fixata): "); scanf("%lf", &lambda);
+
+                printf("\n");
+
+                for (int i = 0; i < nr; ++i)
+                    FunPoiss(lambda);
+
+                printf("\n");
+
+                printf("Media si disperia sunt: %g\n", lambda);
+
+                printf("\n");
+
+                break;
+
+            case 5:
                 printf("Primul si ultimul element al multimii (numere intregi): "); scanf("%d %d", &a, &b);
                 if (a > b)
                 {
@@ -179,28 +215,46 @@ int main ()
                     a = b;
                     b = aux;
                 }
+
+                printf("\n");
+
                 printf("Se simuleaza %d valori din multimea { ", nr);
                 for (int i = a; i <= b; ++i)
                     printf("%d ", i);
                 printf("}\n"); 
+
+                printf("\n");
+
                 for (int i = 0; i < nr; ++i)
                     FunUnifDiscr(a, b);
 
-            case 5:
-                printf("Cititi numarul de valori (maxim 100): "); scanf("%d", val);
-                printf("Cititi valorile (in ordine crescatoare) si probabilitatile lor.\n");
+                printf("\n");
+                break;
 
+            case 6:
+                printf("Cititi numarul de valori (maxim 100): "); scanf("%d", &val);
+
+                printf("\n");
+                
+                printf("Cititi valorile (in ordine crescatoare) si probabilitatile lor (suma lor = 1): \n");
                 for (int i = 0; i < val; ++i)
                 {
                     printf("Valorea: "); scanf("%lf", &x[i]);
                     printf("Probabilitatea: "); scanf("%lf", &prob[i]);
+                    printf("\n");
                 }
+
+                printf("\n");
 
                 for (int i = 0; i < nr; ++i)
                     FunNeunifDiscr(x, prob);
 
-                
-            case 6:
+                printf("\n");
+
+                break;
+
+            case 7:
+                printf("\n");
                 break;
         
             default:
@@ -208,7 +262,7 @@ int main ()
                 break;
         }
 
-    } while (optiune != 6);
+    } while (optiune != 7);
 
 
     return 0;
