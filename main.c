@@ -66,6 +66,23 @@ void FunGeom2 (double p)
     printf ("Numarul de incercari pana la primul succes (inclusiv): %g\n", k);
 }
 
+void FunPoiss (double lambda)
+{
+    int n = 0;
+    double u, limit;
+
+    limit = exp (-lambda);
+    u = urand ();
+
+    while (u > limit)
+    {
+        n++;
+        u *= urand ();
+    }
+
+    printf ("Numărul de evenimente rare ce au avut loc în unitatea de timp: %d\n", n);
+}
+
 void FunUnifDiscr (int m, int n)
 {
     double u;
@@ -109,8 +126,10 @@ int main ()
         printf("1 - Simularea distributiei Bernoulli\n");
         printf("2 - Simularea distributiei Binomiale\n");
         printf("3 - Simularea distributiei Geometrica\n");
-        printf("4 - Simularea distributiei uniforme discrete\n");
-        printf("5 - Simularea distributiei neuniforme discrete\n");
+        printf("4 - Simularea distributiei Poisson\n");
+        printf("5 - Simularea distributiei uniforme discrete\n");
+        printf("6 - Simularea distributiei neuniforme discrete\n");
+        printf("7 - Exit\n");
 
         printf ("Introduceti optiunea: \n"); scanf ("%d", &optiune);
         if (optiune != 5)
