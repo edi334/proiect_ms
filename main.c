@@ -1,11 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
-
-
+#include <math.h>
 
 double urand ()
 {
-    return (double) rand() / (double) ((unsigned) RAND_MAX + 1);
+    return (double)rand() / (double)RAND_MAX ;
 }
 
 
@@ -25,7 +24,7 @@ void FunBin (double n, double p)
         k++;
     }
 
-    printf ("Numărul de succese din cele %ld încercări: %ld\n", n, k);
+    printf ("Numarul de succese din cele %ld incercari: %ld\n", n, k);
 }
 
 void FunBern (double p)
@@ -49,7 +48,7 @@ void FunGeom1 (double p)
 
     } while (u > p);
 
-    printf ("Numărul de încercări până la primul succes (inclusiv): %ld\n", k);
+    printf ("Numarul de incercari pana la primul succes (inclusiv): %ld\n", k);
 }
 
 void FunGeom2 (double p)
@@ -60,30 +59,43 @@ void FunGeom2 (double p)
     u = urand ();
     k = (int) (log (1 - u) / log (1 - p)) + 1;
 
-    printf ("Numărul de încercări până la primul succes (inclusiv): %ld\n", k);
+    printf ("Numarul de incercari pana la primul succes (inclusiv): %ld\n", k);
+}
+
+void FunUnifDiscr (int m, int n)
+{
+    double u;
+    int k;
+
+    u = urand();
+    printf("%ld\n", u);
+    k - (int)((n - m + 1) * u);
+    k = k + m;
+
+    printf("Valoare %d a fost simulata din multimea selectata\n");
 }
 
 
 
 int main ()
 {
-    int optiune, nr;
+    int optiune, nr, a, b, aux;;
     double p, n;
 
     printf("Simularea variabilelor aleatoare.\n");
 
     do
     {
-        printf("1 - Simularea distribuției Bernoulli\n");
-        printf("2 - Simularea distribuției Binomiale\n");
-        printf("3 - Simularea distribuției Geometrică\n");
+        printf("1 - Simularea distributiei Bernoulli\n");
+        printf("2 - Simularea distributiei Binomiale\n");
+        printf("3 - Simularea distributiei Geometrica\n");
+        printf("4 - Simularea distrbutiei uniforme discrete\n");
 
-        printf ("Introduceți opțiunea: \n"); scanf ("%d", &optiune);
+        printf ("Introduceti optiunea: \n"); scanf ("%d", &optiune);
+        printf("De cate ori sa fie simulata?\n"); scanf("%d", &nr);
 
         switch (optiune)
         {
-            printf("De cate ori sa fie simulată?\n"); scanf("%d", &nr);
-
             case 1:
                 printf("Probabilitatea succesului: "); scanf("%ld", &p);
 
@@ -95,7 +107,7 @@ int main ()
                 break;
 
             case 2:
-                printf ("Numărul de încercări: "); scanf ("%ld", &n);
+                printf ("Numarul de incercari: "); scanf ("%ld", &n);
                 printf ("Probabilitatea succesului: "); scanf ("%ld", &p);
 
                 for (int i = 0; i < nr; ++i)
@@ -115,17 +127,30 @@ int main ()
                 printf("Dispersia este: %ld", (1 - p) / (p * p));
                 break;
 
-
-
             case 4:
+                printf("Primul si ultimul element al multimii (numere intregi): "); scanf("%d %d", &a, &b);
+                if (a > b)
+                {
+                    aux = a;
+                    a = b;
+                    b = aux;
+                }
+                printf("Se simuleaza %d valori din multimea { ", nr);
+                for (int i = a; i <= b; ++i)
+                    printf("%d ", i);
+                printf("}\n"); 
+                for (int i = 0; i < nr; ++i)
+                    FunUnifDiscr(a, b);
+
+            case 5:
                 break;
         
             default:
-                printf("Opțiune invalidă!\n");
+                printf("Optiune invalida!\n");
                 break;
         }
 
-    } while (optiune != 4);
+    } while (optiune != 5);
 
 
     return 0;
