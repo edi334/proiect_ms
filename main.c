@@ -1,10 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <time.h>
 
 double urand ()
 {
-    return (double)rand() / (double)RAND_MAX ;
+    int r;
+    r = rand ();
+    return (double) r / RAND_MAX;
 }
 
 
@@ -24,12 +27,13 @@ void FunBin (double n, double p)
         k++;
     }
 
-    printf ("Numarul de succese din cele %ld incercari: %ld\n", n, k);
+    printf ("Numarul de succese din cele %g incercari: %g\n", n, k);
 }
 
 void FunBern (double p)
 {
     double u = urand();
+
     if (u < p)
         printf("Evenimentul s-a produs\n");
     else
@@ -48,7 +52,7 @@ void FunGeom1 (double p)
 
     } while (u > p);
 
-    printf ("Numarul de incercari pana la primul succes (inclusiv): %ld\n", k);
+    printf ("Numarul de incercari pana la primul succes (inclusiv): %g\n", k);
 }
 
 void FunGeom2 (double p)
@@ -59,7 +63,7 @@ void FunGeom2 (double p)
     u = urand ();
     k = (int) (log (1 - u) / log (1 - p)) + 1;
 
-    printf ("Numarul de incercari pana la primul succes (inclusiv): %ld\n", k);
+    printf ("Numarul de incercari pana la primul succes (inclusiv): %g\n", k);
 }
 
 void FunUnifDiscr (int m, int n)
@@ -68,17 +72,18 @@ void FunUnifDiscr (int m, int n)
     int k;
 
     u = urand();
-    printf("%ld\n", u);
-    k - (int)((n - m + 1) * u);
+    
+    k = (int)((n - m + 1) * u);
     k = k + m;
 
-    printf("Valoare %d a fost simulata din multimea selectata\n");
+    printf("Valoare %d a fost simulata din multimea selectata\n", k);
 }
 
 
 
 int main ()
 {
+    srand(time(NULL));
     int optiune, nr, a, b, aux;;
     double p, n;
 
@@ -92,39 +97,43 @@ int main ()
         printf("4 - Simularea distrbutiei uniforme discrete\n");
 
         printf ("Introduceti optiunea: \n"); scanf ("%d", &optiune);
-        printf("De cate ori sa fie simulata?\n"); scanf("%d", &nr);
-
+        if (optiune != 5)
+        {
+            printf("De cate ori sa fie simulata?\n");
+            scanf("%d", &nr);
+        }
+        
         switch (optiune)
         {
             case 1:
-                printf("Probabilitatea succesului: "); scanf("%ld", &p);
+                printf("Probabilitatea succesului: "); scanf("%lf", &p);
 
                 for (int i = 0; i < nr; ++i)
                     FunBern(p);
                 
-                printf("Media este: %ld\n", p);
-                printf("Dispersia este: %ld", p * (1 - p));
+                printf("Media este: %g\n", p);
+                printf("Dispersia este: %g\n", p * (1 - p));
                 break;
 
             case 2:
-                printf ("Numarul de incercari: "); scanf ("%ld", &n);
-                printf ("Probabilitatea succesului: "); scanf ("%ld", &p);
+                printf ("Numarul de incercari: "); scanf ("%lf", &n);
+                printf ("Probabilitatea succesului: "); scanf ("%lf", &p);
 
                 for (int i = 0; i < nr; ++i)
                     FunBin (n, p);
 
-                printf("Media este: %ld\n", n * p);
-                printf("Dispersia este: %ld", n * p * (1 - p));
+                printf("Media este: %g\n", n * p);
+                printf("Dispersia este: %g\n", n * p * (1 - p));
                 break;
 
             case 3:
-                printf ("Probabilitatea succesului: "); scanf ("%ld", &p);
+                printf ("Probabilitatea succesului: "); scanf ("%lf", &p);
 
                 for (int i = 0; i < nr; ++i)
                     FunGeom1 (p);            // am lasat geom1 deocamdata
 
-                printf("Media este: %ld\n", 1 / p);
-                printf("Dispersia este: %ld", (1 - p) / (p * p));
+                printf("Media este: %g\n", 1 / p);
+                printf("Dispersia este: %g\n", (1 - p) / (p * p));
                 break;
 
             case 4:
