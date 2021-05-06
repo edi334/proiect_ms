@@ -72,20 +72,35 @@ void FunUnifDiscr (int m, int n)
     int k;
 
     u = urand();
-    
+
     k = (int)((n - m + 1) * u);
     k = k + m;
 
     printf("Valoare %d a fost simulata din multimea selectata\n", k);
 }
 
+void FunNeunifDiscr (double *x, double *p)
+{
+    int k = 0;
+    double F = p[0];
+    double u;
+
+    u = urand();
+    while (u > F)
+    {
+        k = k + 1;
+        F = F + p[k];
+    }
+
+    printf("Valoare %lf a fost simulata\n", x[k]);
+}
 
 
 int main ()
 {
     srand(time(NULL));
-    int optiune, nr, a, b, aux;;
-    double p, n;
+    int optiune, nr, a, b, aux, val;
+    double p, n, x[100], prob[100];
 
     printf("Simularea variabilelor aleatoare.\n");
 
@@ -94,7 +109,8 @@ int main ()
         printf("1 - Simularea distributiei Bernoulli\n");
         printf("2 - Simularea distributiei Binomiale\n");
         printf("3 - Simularea distributiei Geometrica\n");
-        printf("4 - Simularea distrbutiei uniforme discrete\n");
+        printf("4 - Simularea distributiei uniforme discrete\n");
+        printf("5 - Simularea distributiei neuniforme discrete\n");
 
         printf ("Introduceti optiunea: \n"); scanf ("%d", &optiune);
         if (optiune != 5)
@@ -152,6 +168,20 @@ int main ()
                     FunUnifDiscr(a, b);
 
             case 5:
+                printf("Cititi numarul de valori (maxim 100): "); scanf("%d", val);
+                printf("Cititi valorile (in ordine crescatoare) si probabilitatile lor.\n");
+
+                for (int i = 0; i < val; ++i)
+                {
+                    printf("Valorea: "); scanf("%lf", &x[i]);
+                    printf("Probabilitatea: "); scanf("%lf", &prob[i]);
+                }
+
+                for (int i = 0; i < nr; ++i)
+                    FunNeunifDiscr(x, prob);
+
+                
+            case 6:
                 break;
         
             default:
@@ -159,7 +189,7 @@ int main ()
                 break;
         }
 
-    } while (optiune != 5);
+    } while (optiune != 6);
 
 
     return 0;
