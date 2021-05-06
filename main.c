@@ -1,11 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 
 
 
 double urand ()
 {
-    return (double) rand() / (double) ((unsigned) RAND_MAX + 1);
+    int r;
+    r = rand ();
+    return (double) r / RAND_MAX;
 }
 
 
@@ -63,6 +66,23 @@ void FunGeom2 (double p)
     printf ("Numărul de încercări până la primul succes (inclusiv): %ld\n", k);
 }
 
+void FunPoiss (double lambda)
+{
+    int n = 0;
+    double u, limit;
+
+    limit = exp (-lambda);
+    u = urand ();
+
+    while (u > limit)
+    {
+        n++;
+        u *= urand ();
+    }
+
+    printf ("Numărul de evenimente rare ce au avut loc în unitatea de timp: %d\n", n);
+}
+
 
 
 int main ()
@@ -70,6 +90,9 @@ int main ()
     int optiune, nr;
     double p, n;
 
+    srand (time (NULL));
+
+    printf ("%g %g %g", urand(), urand(), urand());
     printf("Simularea variabilelor aleatoare.\n");
 
     do
